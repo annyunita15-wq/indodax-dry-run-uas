@@ -4,7 +4,7 @@ Implementasi tugas UAS Algorithmic Trading. Semua transaksi simulasi; tidak ada 
 
 ## Status dan batas penting
 
-Panduan menetapkan freeze pada 4 November 2026 pukul 12.00 WIB dan forward test 4–14 November. Workspace ini mulai dikerjakan pada 9 November 2026, setelah tanggal freeze. Commit yang dibuat sekarang adalah checkpoint terlambat dengan timestamp aktual; ia bukan bukti freeze tepat waktu. Lihat [FREEZE_RECORD.md](FREEZE_RECORD.md) untuk catatan input dan bukti yang tidak tersedia. Repository ini sengaja tidak berisi log, snapshot, fee historis, atau hasil backtest fiktif. Backtest juga menolak berjalan tanpa snapshot pra-freeze dan dua sumber fee yang terverifikasi. Jangan mengaktifkan endpoint untuk mengklaim hasil UAS 10 hari penuh bila bukti tersebut tidak tersedia.
+Panduan menetapkan freeze pada 4 November 2026 pukul 12.00 WIB dan forward test 4–14 November. Workspace ini mulai dikerjakan pada 9 November 2026, setelah tanggal freeze; commit ini bukan bukti freeze tepat waktu. Jendela 9–19 November yang tercatat di `config.cjs` adalah late run terpisah, belum dimulai, dan memerlukan persetujuan dosen. Lihat [FREEZE_RECORD.md](FREEZE_RECORD.md) untuk bukti yang tidak tersedia. Jangan mengklaim late run sebagai hasil forward test resmi UAS.
 
 Kode memakai parameter UTS Andini (BB 25, simpangan baku 2, RSI 10, oversold 30, exit RSI 60) pada candle kripto 4 jam. Universe kandidat ditentukan dengan rata-rata turnover IDR pada 30 hari pertama dari backtest, kemudian maksimal 5 pasangan dipilih. Daftar hanya berisi pasangan yang tersedia sekarang; pasangan Indodax yang telah delisting tidak dapat ditemukan melalui API saat ini, sehingga bias survivorship historis masih perlu diungkapkan.
 
@@ -43,7 +43,7 @@ Setelah snapshot pra-freeze dan data fee lengkap, `npm run backtest` memvalidasi
 
 Project Production: `indodax-dry-run-uas` pada `https://indodax-dry-run-uas.vercel.app`. Upstash yang sudah ada tersambung melalui nama env standar `KV_REST_API_URL` dan `KV_REST_API_TOKEN`; secret tidak boleh disimpan di file/repository. Tambahkan `CRON_SECRET`, `KILL_SWITCH_SECRET`, kedua fee env di atas, `BOT_ENABLED`, dan `FREEZE_COMMIT` melalui Vercel Environment Variables. Endpoint `/api/tick` hanya menerima POST Bearer `CRON_SECRET`; default tetap disabled sampai seluruh prasyarat ditinjau.
 
-Untuk timeframe 4 jam, workflow GitHub Actions `.github/workflows/tick.yml` memanggil endpoint pada menit ke-7 setiap empat jam. Isi GitHub Actions secrets `TICK_URL` (URL penuh `/api/tick`) dan `CRON_SECRET`. Catat keterlambatan scheduler dari timestamp panggilan di log.
+Untuk timeframe 4 jam, workflow GitHub Actions `.github/workflows/tick.yml` memanggil endpoint pada menit ke-7 setiap empat jam. Isi GitHub Actions secrets `TICK_URL` (URL penuh `/api/tick`) dan `CRON_SECRET`. Catat keterlambatan scheduler dari timestamp panggilan di log. Pada Production, Upstash dan fee live sudah tersedia, tetapi `BOT_ENABLED` sengaja tetap `false` sampai dua GitHub Actions secrets dipasang dan dosen menyetujui late run. Jangan mengubahnya ke `true` untuk merekonstruksi periode 4–14 November.
 
 Kill switch manual:
 

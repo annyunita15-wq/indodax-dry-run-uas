@@ -16,9 +16,9 @@ module.exports = Object.freeze({
   retryCount: 2,
   requestGapMs: 350,
   backtestStart: '2023-11-04T00:00:00Z',
-  freezeAt: '2026-11-04T05:00:00Z',
-  forwardEnd: '2026-11-14T05:00:00Z',
-  snapshotStart: '2026-11-02T00:00:00+07:00',
+  freezeAt: '2026-11-09T16:00:00Z',
+  forwardEnd: '2026-11-19T16:00:00Z',
+  snapshotStart: '2026-11-09T00:00:00+07:00',
   candidateSymbols: Object.freeze([
     'BTCIDR', 'ETHIDR', 'XRPIDR', 'DOGEIDR', 'LTCIDR',
     'ADAIDR', 'TRXIDR', 'SOLIDR', 'BNBIDR', 'USDTIDR'
