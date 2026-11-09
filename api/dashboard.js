@@ -13,7 +13,10 @@ module.exports = async function dashboard(req, res) {
     return;
   }
   try {
-    const storageConfigured = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+    const storageConfigured = Boolean(
+      (process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL) &&
+      (process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN)
+    );
     if (!storageConfigured) {
       const backtestPath = path.join(process.cwd(), 'data', 'backtest.json');
       const backtest = fs.existsSync(backtestPath) ? JSON.parse(fs.readFileSync(backtestPath, 'utf8')) : null;
