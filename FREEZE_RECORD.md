@@ -17,7 +17,7 @@ The UAS schedule specified a freeze on 4 November 2026 at 12.00 WIB and a forwar
 ## Evidence gaps
 
 - The original freeze-date order-book snapshots are absent. The snapshot file contains observations captured after the original freeze and cannot be used as if they were pre-freeze measurements.
-- The public pairs API reported a 0.2% taker fee on 9 November 2026. The official fee page referenced in the assignment returned HTTP 404 when checked, so the second fee source is not verified. No official fee value is inferred or fabricated.
+- The public pairs API reported a 0.2% taker fee on 9 November 2026. The official all-in fee table, accessed 9 November 2026, reports IDR taker buy 0.20555% and sell 0.41555%, effective 1 October 2026. Historical official fee values before that date are not yet verified.
 - The three-year candle history and initial-liquidity universe exist, but the cost-aware backtest intentionally refuses to produce results until valid fee records and eligible snapshots are supplied.
 - No Vercel forward run has been started. The required ten-day forward results, uptime, and signal comparison therefore do not exist.
 

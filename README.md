@@ -16,7 +16,7 @@ Kode memakai parameter UTS Andini (BB 25, simpangan baku 2, RSI 10, oversold 30,
 - Bollinger memakai 25 candle dan simpangan baku populasi 2. Sinyal live dan backtest memakai `lib/strategy.cjs` yang sama.
 - Ukuran awal posisi Rp10.000.000, maksimum Rp20.000.000 per pasangan, maksimal 5 posisi, tanpa compounding.
 - Daily loss limit 2% equity awal hari WIB. Saat terlampaui, entry baru dihentikan hingga pergantian hari; exit tetap berjalan. Kill switch disimpan di Upstash dan dapat dipakai tanpa deploy ulang.
-- Minimum order Rp25.000. Fee memakai nilai lebih tinggi antara `/api/pairs` dan biaya taker resmi. `OFFICIAL_TAKER_FEE_PERCENT` wajib diisi setelah memeriksa sumber resmi.
+- Minimum order Rp25.000. Fee live memakai nilai lebih tinggi antara `/api/pairs` dan fee taker all-in resmi per sisi: buy 0,20555%, sell 0,41555% (berlaku 1 Oktober 2026). Set `OFFICIAL_TAKER_BUY_FEE_PERCENT=0.20555` dan `OFFICIAL_TAKER_SELL_FEE_PERCENT=0.41555` dari sumber resmi.
 - Order menyapu level bid/ask hingga kuantitas terpenuhi. Equity posisi terbuka dinilai pada best bid. Spread di atas 2%, buku kosong, candle basi, candle hilang, atau data OHLCV nol akan menolak entry dan tercatat sebagai error.
 - Idempotency memakai waktu candle tertutup per pasangan dan lock Redis. Retry API dibatasi.
 
@@ -33,15 +33,15 @@ npm run snapshot
 
 `download` menarik candle 4 jam mundur per 600 bar, serial dengan jeda, untuk 10 kandidat sampai freeze. `select` memilih pasangan berdasarkan turnover di 30 hari awal backtest. `snapshot` menyimpan seluruh level buku order sebagai JSONL; jalankan minimal tiga kali sehari selama persiapan dan forward test.
 
-Salin `data/fee-rates.example.json` menjadi `data/fee-rates.json`. Isi persentase taker dari `https://indodax.com/api/pairs` dan halaman biaya resmi `https://help.indodax.com/en/rincian-biaya-transaksi/`, termasuk URL dan tanggal akses. Buat satu rekaman per masa tarif efektif, setidaknya sebelum dan sesudah 1 Oktober 2026. Jangan isi dengan perkiraan.
+`data/fee-rates.json` berisi tarif resmi yang telah diverifikasi mulai 1 Oktober 2026. Sumber: [`/api/pairs`](https://indodax.com/api/pairs), [artikel biaya resmi](https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-INDODAX), dan [tabel fee all-in](https://help.indodax.com/hc/article_attachments/62709720229401); diakses 9 November 2026. Nilai API taker IDR 0,2%; fee resmi all-in taker buy 0,20555%, sell 0,41555%. Jangan menyamakan dua sisi.
 
-Pemeriksaan 9 November 2026: `/api/pairs` melaporkan `trade_fee_percent_taker = 0.2%` pada pasangan IDR terpilih. URL rincian biaya pada soal mengembalikan HTTP 404 pada saat diperiksa, sehingga tarif resmi pembanding belum terverifikasi dan `data/fee-rates.json` sengaja tidak dibuat.
+Fee sebelum 1 Oktober 2026 belum terdokumentasi di sumber yang berhasil diakses. Backtest tiga tahun akan berhenti pada periode yang fee-nya tidak terverifikasi; jangan menyalin tarif 2026 ke tahun sebelumnya.
 
 Setelah snapshot pra-freeze dan data fee lengkap, `npm run backtest` memvalidasi data minimum tiga tahun lalu menulis `data/backtest.json`. Jika prasyarat kurang, skrip berhenti dengan alasan. Setelah tanggal 14 November, tarik candle sampai akhir periode lalu jalankan `npm run replay`; skrip membandingkan return backtest pada 10 hari yang sama dan sinyal per candle dengan log bot.
 
 ## Vercel dan forward test
 
-Tetapkan project root Vercel ke folder ini. Hubungkan Upstash Redis melalui Marketplace, lalu isi environment variables Vercel dari `.env.example`; `CRON_SECRET`, `KILL_SWITCH_SECRET`, dan token Upstash hanya di environment, jangan di file atau repositori. Endpoint `/api/tick` hanya menerima POST Bearer `CRON_SECRET`. Bot juga mensyaratkan `BOT_ENABLED=true`, `FREEZE_COMMIT` berisi hash commit freeze, dan `data/runtime-config.json` hasil seleksi yang di-commit.
+Project Production: `indodax-dry-run-uas` pada `https://indodax-dry-run-uas.vercel.app`. Upstash yang sudah ada tersambung melalui nama env standar `KV_REST_API_URL` dan `KV_REST_API_TOKEN`; secret tidak boleh disimpan di file/repository. Tambahkan `CRON_SECRET`, `KILL_SWITCH_SECRET`, kedua fee env di atas, `BOT_ENABLED`, dan `FREEZE_COMMIT` melalui Vercel Environment Variables. Endpoint `/api/tick` hanya menerima POST Bearer `CRON_SECRET`; default tetap disabled sampai seluruh prasyarat ditinjau.
 
 Untuk timeframe 4 jam, workflow GitHub Actions `.github/workflows/tick.yml` memanggil endpoint pada menit ke-7 setiap empat jam. Isi GitHub Actions secrets `TICK_URL` (URL penuh `/api/tick`) dan `CRON_SECRET`. Catat keterlambatan scheduler dari timestamp panggilan di log.
 

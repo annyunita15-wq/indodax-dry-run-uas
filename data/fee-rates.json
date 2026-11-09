@@ -1,0 +1,17 @@
+[
+  {
+    "symbol": "*",
+    "effectiveFrom": "2026-10-01",
+    "apiTakerPercent": 0.2,
+    "officialTakerPercent": {
+      "buy": 0.20555,
+      "sell": 0.41555
+    },
+    "pairsUrl": "https://indodax.com/api/pairs",
+    "officialFeeUrl": "https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-INDODAX",
+    "officialFeeApiUrl": "https://help.indodax.com/api/v2/help_center/id/articles/4416646599705.json",
+    "feeTableImageUrl": "https://help.indodax.com/hc/article_attachments/62709720229401",
+    "accessedAt": "2026-11-09",
+    "note": "Official all-in IDR taker BUY 0.20555%, SELL 0.41555%; API trade_fee_percent_taker 0.2%."
+  }
+]

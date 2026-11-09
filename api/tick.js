@@ -32,9 +32,11 @@ module.exports = async function tick(req, res) {
     res.status(401).json({ error: 'unauthorized' });
     return;
   }
-  if (process.env.BOT_ENABLED !== 'true' || !/^[a-f0-9]{7,40}$/i.test(process.env.FREEZE_COMMIT || '') ||
-      process.env.OFFICIAL_TAKER_FEE_PERCENT == null || process.env.OFFICIAL_TAKER_FEE_PERCENT.trim() === '' ||
-      !Number.isFinite(Number(process.env.OFFICIAL_TAKER_FEE_PERCENT))) {
+    const officialBuyFee = process.env.OFFICIAL_TAKER_BUY_FEE_PERCENT;
+    const officialSellFee = process.env.OFFICIAL_TAKER_SELL_FEE_PERCENT;
+    if (process.env.BOT_ENABLED !== 'true' || !/^[a-f0-9]{7,40}$/i.test(process.env.FREEZE_COMMIT || '') ||
+      officialBuyFee == null || officialBuyFee.trim() === '' || !Number.isFinite(Number(officialBuyFee)) ||
+      officialSellFee == null || officialSellFee.trim() === '' || !Number.isFinite(Number(officialSellFee))) {
     res.status(423).json({ error: 'bot_disabled_or_freeze_commit_missing' });
     return;
   }
@@ -98,7 +100,7 @@ module.exports = async function tick(req, res) {
 
     const killSwitch = await storage.getKillSwitch();
     const state = await storage.getState() || createState(config);
-    const result = runTick(state, markets, { timestamp: serverTime, officialFeePercent: process.env.OFFICIAL_TAKER_FEE_PERCENT, killSwitch, config });
+    const result = runTick(state, markets, { timestamp: serverTime, officialFeePercent: { buy: officialBuyFee, sell: officialSellFee }, killSwitch, config });
     result.call.startedAt = new Date(started).toISOString();
     result.call.finishedAt = new Date().toISOString();
     result.call.elapsedMs = Date.now() - started;

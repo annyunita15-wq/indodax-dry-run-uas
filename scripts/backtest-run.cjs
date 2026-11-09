@@ -19,14 +19,15 @@ function median(values) {
   return sorted.length ? sorted[Math.floor(sorted.length / 2)] : null;
 }
 
-function feeRate(records, symbol, date) {
+function feeRate(records, symbol, date, side) {
   const rows = records.filter(row => (row.symbol === symbol || row.symbol === '*') && Date.parse(`${row.effectiveFrom}T00:00:00Z`) <= date);
   rows.sort((a, b) => Date.parse(`${b.effectiveFrom}T00:00:00Z`) - Date.parse(`${a.effectiveFrom}T00:00:00Z`));
   const row = rows[0];
-  if (!row || row.apiTakerPercent == null || row.officialTakerPercent == null || !Number.isFinite(Number(row.apiTakerPercent)) || !Number.isFinite(Number(row.officialTakerPercent)) || !row.accessedAt) {
+  const official = typeof row?.officialTakerPercent === 'object' ? row.officialTakerPercent[side.toLowerCase()] : row?.officialTakerPercent;
+  if (!row || row.apiTakerPercent == null || official == null || !Number.isFinite(Number(row.apiTakerPercent)) || !Number.isFinite(Number(official)) || !row.accessedAt) {
     throw new Error(`Biaya ${symbol} pada ${new Date(date * 1000).toISOString().slice(0, 10)} belum dilengkapi dengan dua sumber dan tanggal akses di data/fee-rates.json.`);
   }
-  return Math.max(Number(row.apiTakerPercent), Number(row.officialTakerPercent)) / 100;
+  return Math.max(Number(row.apiTakerPercent), Number(official)) / 100;
 }
 
 function main() {
@@ -94,7 +95,7 @@ function main() {
       const bar = series.get(symbol).find(row => row.time === time);
       if (bar) {
         const cost = costs[symbol];
-        const rate = feeRate(feeRows, symbol, time);
+        const rate = feeRate(feeRows, symbol, time, 'SELL');
         openEquity += position.quantity * bar.open * (1 - cost.spread / 2 - cost.sellSlippage) * (1 - rate);
       }
     }
@@ -113,7 +114,7 @@ function main() {
       const order = pending.get(`${symbol}|${time}`);
       if (!order) continue;
       const cost = costs[symbol];
-      const rate = feeRate(feeRows, symbol, time);
+      const rate = feeRate(feeRows, symbol, time, order.action);
       const bar = series.get(symbol).find(row => row.time === time);
       if (!bar) continue;
       if (order.action === 'BUY' && !dailyLossBlocked && !positions.has(symbol) && positions.size < config.maxPositions) {
@@ -154,7 +155,7 @@ function main() {
       const bar = series.get(symbol).find(row => row.time === time);
       if (!bar) continue;
       const cost = costs[symbol];
-      const rate = feeRate(feeRows, symbol, time);
+      const rate = feeRate(feeRows, symbol, time, 'SELL');
       value += position.quantity * bar.close * (1 - cost.spread / 2 - cost.sellSlippage) * (1 - rate);
     }
     equity.push([time + config.intervalSeconds, Math.round(value)]);

@@ -11,12 +11,13 @@ const start = Math.floor(Date.parse(config.freezeAt) / 1000);
 const end = Math.floor(Date.parse(config.forwardEnd) / 1000);
 
 function read(name) { return JSON.parse(fs.readFileSync(path.join(root, 'data', name), 'utf8')); }
-function feeRate(records, symbol, time) {
+function feeRate(records, symbol, time, side) {
   const rows = records.filter(row => (row.symbol === symbol || row.symbol === '*') && Date.parse(`${row.effectiveFrom}T00:00:00Z`) <= time)
     .sort((a, b) => Date.parse(`${b.effectiveFrom}T00:00:00Z`) - Date.parse(`${a.effectiveFrom}T00:00:00Z`));
   const row = rows[0];
-  if (!row || row.apiTakerPercent == null || row.officialTakerPercent == null || !row.accessedAt) throw new Error(`Fee ${symbol} tidak lengkap pada ${new Date(time * 1000).toISOString()}.`);
-  return Math.max(Number(row.apiTakerPercent), Number(row.officialTakerPercent)) / 100;
+  const official = typeof row?.officialTakerPercent === 'object' ? row.officialTakerPercent[side.toLowerCase()] : row?.officialTakerPercent;
+  if (!row || row.apiTakerPercent == null || official == null || !row.accessedAt) throw new Error(`Fee ${symbol} tidak lengkap pada ${new Date(time * 1000).toISOString()}.`);
+  return Math.max(Number(row.apiTakerPercent), Number(official)) / 100;
 }
 
 function main() {
@@ -48,7 +49,7 @@ function main() {
       const bar = series.get(symbol).find(item => item.time === time);
       if (bar) {
         const cost = backtest.costs[symbol];
-        openEquity += position.quantity * bar.open * (1 - cost.spread / 2 - cost.sellSlippage) * (1 - feeRate(feeRows, symbol, time));
+        openEquity += position.quantity * bar.open * (1 - cost.spread / 2 - cost.sellSlippage) * (1 - feeRate(feeRows, symbol, time, 'SELL'));
       }
     }
     const currentDay = new Date((time + 7 * 3600) * 1000).toISOString().slice(0, 10);
@@ -62,7 +63,7 @@ function main() {
       const bar = series.get(symbol).find(item => item.time === time);
       if (!bar) return;
       const cost = backtest.costs[symbol];
-      const rate = feeRate(feeRows, symbol, time);
+      const rate = feeRate(feeRows, symbol, time, order.action);
       if (order.action === 'SELL' && positions.has(symbol)) {
         const position = positions.get(symbol);
         const increment = marketInfo.increments[symbol];
@@ -103,7 +104,7 @@ function main() {
       if (!bar) continue;
       const cost = backtest.costs[symbol];
       const markedPrice = bar.time + config.intervalSeconds <= end ? bar.close : bar.open;
-      value += position.quantity * markedPrice * (1 - cost.spread / 2 - cost.sellSlippage) * (1 - feeRate(feeRows, symbol, time));
+      value += position.quantity * markedPrice * (1 - cost.spread / 2 - cost.sellSlippage) * (1 - feeRate(feeRows, symbol, time, 'SELL'));
     }
     equity.push([Math.min(time + config.intervalSeconds, end), Math.round(value)]);
 
