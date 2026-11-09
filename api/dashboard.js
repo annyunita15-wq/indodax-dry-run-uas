@@ -13,6 +13,15 @@ module.exports = async function dashboard(req, res) {
     return;
   }
   try {
+    const storageConfigured = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+    if (!storageConfigured) {
+      const backtestPath = path.join(process.cwd(), 'data', 'backtest.json');
+      const backtest = fs.existsSync(backtestPath) ? JSON.parse(fs.readFileSync(backtestPath, 'utf8')) : null;
+      const audit = { state: null, calls: [], orders: [], trades: [], snapshots: [], errors: [], switches: [], backtest, forwardReplay: null };
+      res.setHeader('Cache-Control', 'no-store');
+      res.status(200).json({ ...audit, storageConfigured, metrics: buildAuditMetrics(audit, config) });
+      return;
+    }
     const [state, calls, orders, trades, snapshots, errors, switches] = await Promise.all([
       storage.getState(), storage.readList('calls'), storage.readList('orders'), storage.readList('trades'),
       storage.readList('snapshots'), storage.readList('errors'), storage.readList('switches')
@@ -23,7 +32,7 @@ module.exports = async function dashboard(req, res) {
     const replayPath = path.join(process.cwd(), 'data', 'forward-replay.json');
     const forwardReplay = fs.existsSync(replayPath) ? JSON.parse(fs.readFileSync(replayPath, 'utf8')) : null;
     const audit = { state, calls, orders, trades, snapshots, errors, switches, backtest, forwardReplay };
-    res.status(200).json({ ...audit, metrics: buildAuditMetrics(audit, config) });
+    res.status(200).json({ ...audit, storageConfigured, metrics: buildAuditMetrics(audit, config) });
   } catch (error) {
     res.status(503).json({ error: error.message });
   }
