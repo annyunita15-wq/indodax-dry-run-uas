@@ -67,4 +67,4 @@ npm run build-dashboard
 
 `dashboard-offline.html` mandiri dan dapat dibuka tanpa internet. Metrik dihitung dari backtest, panggilan, order, trade, equity, dan snapshot. Forward replay dan benchmark hanya ditampilkan setelah data historis yang sama tersedia; angka yang belum ada tetap `--`.
 
-Jalankan preview lokal dengan `npm run dev` (port 4173). Deployment dan forward run memerlukan akun Vercel, Upstash, repository GitHub, fee resmi yang diverifikasi, serta rekaman pasar; hal-hal tersebut tidak tersedia di workspace ini.
+Jalankan preview lokal dengan `npm run dev` (port 4173). Preview Production Vercel: https://indodax-dry-run-uas.vercel.app. Dashboard dapat dibuka publik, tetapi saat ini belum terhubung ke Upstash sehingga menampilkan state kosong. Endpoint tick tetap terkunci dan bot belum dijalankan; jangan mengaktifkannya sebelum fee resmi serta credential storage dan scheduler disiapkan. Deploy ini dibuat manual karena integrasi GitHub-Vercel belum memiliki izin repository.

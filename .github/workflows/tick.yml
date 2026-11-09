@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Vercel bot
+        if: ${{ env.TICK_URL != '' && env.CRON_SECRET != '' }}
         env:
           TICK_URL: ${{ secrets.TICK_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
