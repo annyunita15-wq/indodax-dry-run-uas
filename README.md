@@ -33,9 +33,9 @@ npm run snapshot
 
 `download` menarik candle 4 jam mundur per 600 bar, serial dengan jeda, untuk 10 kandidat sampai freeze. `select` memilih pasangan berdasarkan turnover di 30 hari awal backtest. `snapshot` menyimpan seluruh level buku order sebagai JSONL; jalankan minimal tiga kali sehari selama persiapan dan forward test.
 
-`data/fee-rates.json` berisi tarif resmi yang telah diverifikasi mulai 1 Oktober 2026. Sumber: [`/api/pairs`](https://indodax.com/api/pairs), [artikel biaya resmi](https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-INDODAX), dan [tabel fee all-in](https://help.indodax.com/hc/article_attachments/62709720229401); diakses 9 November 2026. Nilai API taker IDR 0,2%; fee resmi all-in taker buy 0,20555%, sell 0,41555%. Jangan menyamakan dua sisi.
+`data/fee-rates.json` memuat periode fee API dan resmi per sisi. Sumber langsung: [`/api/pairs`](https://indodax.com/api/pairs), [artikel biaya resmi](https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-INDODAX), dan [tabel fee all-in terbaru](https://help.indodax.com/hc/article_attachments/62709720229401); diakses 9 November 2026. Riwayat sebelum 1 Oktober 2026 dicocokkan dengan arsip resmi Wayback yang URL-nya disimpan per baris. Periode 2023-11-04–2024-10-30 diturunkan eksplisit dengan mengurangi CFX 0,0222% dari tabel 2024 post-CFX; lihat `note` pada record, dan jangan menyajikannya sebagai kutipan langsung.
 
-Fee sebelum 1 Oktober 2026 belum terdokumentasi di sumber yang berhasil diakses. Backtest tiga tahun akan berhenti pada periode yang fee-nya tidak terverifikasi; jangan menyalin tarif 2026 ke tahun sebelumnya.
+Backtest tetap memerlukan snapshot pra-freeze; fee historis saja tidak menggantikan bid/ask yang seharusnya direkam sebelum 4 November.
 
 Setelah snapshot pra-freeze dan data fee lengkap, `npm run backtest` memvalidasi data minimum tiga tahun lalu menulis `data/backtest.json`. Jika prasyarat kurang, skrip berhenti dengan alasan. Setelah tanggal 14 November, tarik candle sampai akhir periode lalu jalankan `npm run replay`; skrip membandingkan return backtest pada 10 hari yang sama dan sinyal per candle dengan log bot.
 

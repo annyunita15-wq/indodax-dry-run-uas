@@ -1,12 +1,42 @@
 [
   {
     "symbol": "*",
+    "effectiveFrom": "2023-11-04",
+    "apiTakerPercent": 0.2,
+    "officialTakerPercent": { "buy": 0.31, "sell": 0.3 },
+    "pairsUrl": "https://indodax.com/api/pairs",
+    "officialFeeUrl": "https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-INDODAX",
+    "officialArchiveUrl": "https://web.archive.org/web/20241106114351/https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-Indodax",
+    "accessedAt": "2026-11-09",
+    "note": "Derived pre-CFX all-in: official archived Nov 6 2024 table reports post-CFX 0.3322% buy/0.3222% sell; official article says CFX 0.0222% became effective Oct 31 2024. Subtracting that one-sided CFX yields 0.31%/0.30%."
+  },
+  {
+    "symbol": "*",
+    "effectiveFrom": "2024-10-31",
+    "apiTakerPercent": 0.2,
+    "officialTakerPercent": { "buy": 0.3322, "sell": 0.3222 },
+    "pairsUrl": "https://indodax.com/api/pairs",
+    "officialFeeUrl": "https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-INDODAX",
+    "officialArchiveUrl": "https://web.archive.org/web/20241106114351/https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-Indodax",
+    "accessedAt": "2026-11-09",
+    "note": "Official all-in IDR taker buy 0.3322%, sell 0.3222%; CFX fee effective Oct 31 2024. The July 10 2025 archived article retains this table and documents the later Aug 2025 tax change."
+  },
+  {
+    "symbol": "*",
+    "effectiveFrom": "2025-08-01",
+    "apiTakerPercent": 0.2,
+    "officialTakerPercent": { "buy": 0.2111, "sell": 0.4211 },
+    "pairsUrl": "https://indodax.com/api/pairs",
+    "officialFeeUrl": "https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-INDODAX",
+    "officialArchiveUrl": "https://web.archive.org/web/20260622103948/https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-INDODAX",
+    "accessedAt": "2026-11-09",
+    "note": "Official archived Jun 22 2026 table after PMK 50/2025 effective Aug 1 2025: IDR taker buy 0.2111%, sell 0.4211%."
+  },
+  {
+    "symbol": "*",
     "effectiveFrom": "2026-10-01",
     "apiTakerPercent": 0.2,
-    "officialTakerPercent": {
-      "buy": 0.20555,
-      "sell": 0.41555
-    },
+    "officialTakerPercent": { "buy": 0.20555, "sell": 0.41555 },
     "pairsUrl": "https://indodax.com/api/pairs",
     "officialFeeUrl": "https://help.indodax.com/hc/id/articles/4416646599705-Rincian-Biaya-Transaksi-di-INDODAX",
     "officialFeeApiUrl": "https://help.indodax.com/api/v2/help_center/id/articles/4416646599705.json",
