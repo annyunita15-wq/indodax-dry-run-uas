@@ -1,0 +1,18 @@
+{
+  "name": "indodax-dry-run-uas",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev-server.cjs",
+    "test": "node --test lib/*.test.cjs",
+    "download": "node scripts/download-history.cjs",
+    "select": "node scripts/select-universe.cjs",
+    "snapshot": "node scripts/sample-books.cjs",
+    "backtest": "node scripts/backtest-run.cjs",
+    "replay": "node scripts/replay-forward.cjs",
+    "runtime-config": "node scripts/create-runtime-config.cjs",
+    "export-audit": "node scripts/export-audit.cjs",
+    "recalculate": "node scripts/recalculate-audit.cjs",
+    "build-dashboard": "node scripts/build-dashboard.cjs"
+  }
+}

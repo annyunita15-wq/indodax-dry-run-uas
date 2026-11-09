@@ -1,0 +1,78 @@
+{
+  "selectedAt": "2026-11-09T06:38:48.649Z",
+  "selectionWindow": {
+    "start": "2023-11-04T00:00:00.000Z",
+    "end": "2023-12-04T00:00:00.000Z"
+  },
+  "rule": "Top 5 kandidat berdasarkan rata-rata turnover harian IDR pada 30 hari pertama jendela backtest; hanya pasangan dengan >=95% candle tersedia.",
+  "candidates": [
+    {
+      "symbol": "USDTIDR",
+      "bars": 180,
+      "days": 30,
+      "averageDailyTurnoverIdr": 40222886049.41529
+    },
+    {
+      "symbol": "BTCIDR",
+      "bars": 180,
+      "days": 30,
+      "averageDailyTurnoverIdr": 20536865322.454395
+    },
+    {
+      "symbol": "ETHIDR",
+      "bars": 180,
+      "days": 30,
+      "averageDailyTurnoverIdr": 7745155486.577918
+    },
+    {
+      "symbol": "XRPIDR",
+      "bars": 180,
+      "days": 30,
+      "averageDailyTurnoverIdr": 6392585570.974944
+    },
+    {
+      "symbol": "SOLIDR",
+      "bars": 180,
+      "days": 30,
+      "averageDailyTurnoverIdr": 5868414585.61073
+    },
+    {
+      "symbol": "DOGEIDR",
+      "bars": 180,
+      "days": 30,
+      "averageDailyTurnoverIdr": 5400943560.551698
+    },
+    {
+      "symbol": "ADAIDR",
+      "bars": 180,
+      "days": 30,
+      "averageDailyTurnoverIdr": 2837262018.6727433
+    },
+    {
+      "symbol": "BNBIDR",
+      "bars": 180,
+      "days": 30,
+      "averageDailyTurnoverIdr": 1726244647.7573142
+    },
+    {
+      "symbol": "TRXIDR",
+      "bars": 180,
+      "days": 30,
+      "averageDailyTurnoverIdr": 1553253916.115128
+    },
+    {
+      "symbol": "LTCIDR",
+      "bars": 180,
+      "days": 30,
+      "averageDailyTurnoverIdr": 576765416.1688278
+    }
+  ],
+  "symbols": [
+    "USDTIDR",
+    "BTCIDR",
+    "ETHIDR",
+    "XRPIDR",
+    "SOLIDR"
+  ],
+  "survivorshipNote": "Seleksi memakai kandidat pasangan yang ada di API saat ini. Pasangan yang sudah delisting tidak dapat ditemukan dari API saat ini; sertakan arsip listing historis untuk menghapus bias itu."
+}

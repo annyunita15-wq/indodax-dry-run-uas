@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Indodax Dry Run | Audit Dashboard</title>
+  <style>
+    :root{color-scheme:light;--ink:#17211e;--muted:#69746f;--line:#dce4df;--paper:#f4f7f4;--surface:#fff;--green:#176c55;--lime:#d8f16b;--red:#b84035;--amber:#9a641b;--blue:#466b9a;--shadow:0 12px 30px rgba(27,50,41,.07)}
+    *{box-sizing:border-box}body{margin:0;color:var(--ink);background:radial-gradient(ellipse at 4% 0%,rgba(216,241,107,.18),transparent 30%),linear-gradient(180deg,#f8faf8 0%,var(--paper) 60%,#eef3ef 100%);font:14px/1.45 "Aptos","Segoe UI Variable",sans-serif;letter-spacing:0}
+    header{border-bottom:1px solid var(--line);background:rgba(255,255,255,.82)}.topbar{max-width:1440px;margin:auto;padding:17px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:13px}.mark{width:34px;height:34px;display:grid;place-items:center;background:var(--green);color:var(--lime);font:bold 18px Georgia,serif}.eyebrow{font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--green);text-transform:uppercase}.brand h1{font:600 19px/1.15 Georgia,serif;margin:3px 0 0}.tools{display:flex;align-items:center;gap:10px}.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:#a6b0aa}.dot.live{background:#1b976e;box-shadow:0 0 0 3px #1b976e20}.action{height:34px;padding:0 12px;border:1px solid var(--line);background:white;color:var(--ink);font:600 12px inherit;cursor:pointer}.action:hover{border-color:var(--green);color:var(--green)}main{max-width:1440px;margin:0 auto;padding:24px 26px 52px}.intro{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:20px}.intro h2{margin:0;font:500 25px/1.1 Georgia,serif}.intro p{margin:7px 0 0;color:var(--muted);font-size:12px}.period{font:12px/1.4 Consolas,monospace;color:var(--muted);text-align:right}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow)}.metric{min-height:101px;padding:17px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.metric:nth-child(4n){border-right:0}.metric:nth-child(n+9){border-bottom:0}.metric label{display:block;color:var(--muted);font-size:11px;font-weight:600}.metric strong{display:block;margin-top:8px;font:600 25px/1 Consolas,monospace;letter-spacing:0}.metric small{display:block;margin-top:6px;color:var(--muted);font-size:10px}.good{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--amber)}.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,.8fr);gap:16px;margin-top:17px}.panel{border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);min-width:0}.panel-head{padding:15px 17px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:14px}.panel-head h3{margin:0;font:600 15px Georgia,serif}.panel-head span{font-size:10px;color:var(--muted)}.chart-wrap{padding:12px 14px 15px;height:254px}.chart-wrap canvas{width:100%;height:100%}.side-metrics{display:grid;grid-template-columns:1fr 1fr}.side-metrics div{padding:14px 15px;border-bottom:1px solid var(--line)}.side-metrics div:nth-child(odd){border-right:1px solid var(--line)}.side-metrics label{color:var(--muted);display:block;font-size:10px}.side-metrics strong{display:block;margin-top:4px;font:600 18px Consolas,monospace}.subnote{padding:13px 15px;color:var(--muted);font-size:11px}.table-panel{margin-top:17px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th,td{padding:11px 14px;text-align:right;border-bottom:1px solid #e8ede9;font-variant-numeric:tabular-nums}th{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase}th:first-child,td:first-child{text-align:left}td{font-size:11px}tbody tr:last-child td{border-bottom:0}.badge{display:inline-block;padding:3px 6px;background:#edf3ef;color:var(--green);font-size:10px;font-weight:700}.empty{padding:26px 18px;color:var(--muted);font-size:12px}.foot{padding:13px 16px;border-top:1px solid var(--line);color:var(--muted);font-size:10px}.error-box{margin:16px 0;padding:12px 14px;border-left:3px solid var(--amber);background:#fff8e9;color:#6b4c18;font-size:12px}.hidden{display:none!important}
+    @media(max-width:850px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.metric:nth-child(2n){border-right:0}.metric:nth-last-child(-n+4){border-bottom:1px solid var(--line)}.metric:nth-last-child(-n+2){border-bottom:0}.layout{grid-template-columns:1fr}.chart-wrap{height:230px}}
+    @media(max-width:520px){.topbar{padding:13px 15px;align-items:flex-start}.brand h1{font-size:16px}.tools{gap:7px;flex-direction:column;align-items:flex-end}.status{font-size:10px}.action{height:30px;font-size:11px}.intro{align-items:flex-start;flex-direction:column}.intro h2{font-size:22px}.period{text-align:left}main{padding:20px 14px 36px}.metric{padding:13px 12px;min-height:88px}.metric strong{font-size:20px}.metric label{font-size:10px}.metric small{font-size:9px}.panel-head{padding:13px}.chart-wrap{height:205px;padding:10px}.side-metrics strong{font-size:16px}th,td{padding:10px 11px}}
+  </style>
+</head>
+<body>
+  <header><div class="topbar"><div class="brand"><div class="mark">I</div><div><div class="eyebrow">Algorithmic Trading · Audit</div><h1>Indodax Dry Run</h1></div></div><div class="tools"><div class="status"><i class="dot" id="status-dot"></i><span id="status-label">Memuat log</span></div><button class="action" id="refresh">Muat ulang</button></div></div></header>
+  <main>
+    <div class="intro"><div><h2>Ringkasan kinerja</h2><p id="subtitle">Backtest dan forward test · simulasi saja</p></div><div class="period" id="period">Jendela beku: --</div></div>
+    <div id="notice" class="error-box hidden"></div>
+    <section class="metrics" aria-label="Metrik utama">
+      <div class="metric"><label>Backtest · return total</label><strong id="bt-return">--</strong><small id="bt-cagr">CAGR --</small></div>
+      <div class="metric"><label>Backtest · maximum drawdown</label><strong id="bt-dd">--</strong><small id="bt-trades">-- trade</small></div>
+      <div class="metric"><label>Forward · return total</label><strong id="fw-return">--</strong><small>Jendela forward test 10 hari</small></div>
+      <div class="metric"><label>Forward · maximum drawdown</label><strong id="fw-dd">--</strong><small>Ditandai pada nilai bid</small></div>
+      <div class="metric"><label>Profit factor</label><strong id="profit-factor">--</strong><small id="win-rate">Win rate --</small></div>
+      <div class="metric"><label>Biaya / laba kotor</label><strong id="cost-share">--</strong><small>Fee + spread + slippage</small></div>
+      <div class="metric"><label>Backtest 10 hari · gap</label><strong id="gap">--</strong><small>Forward minus replay se-jendela</small></div>
+      <div class="metric"><label>Uptime forward</label><strong id="uptime">--</strong><small id="ticks">-- candle terproses</small></div>
+      <div class="metric"><label>Rata-rata untung / trade</label><strong id="average-win">--</strong><small>Trade forward yang menang</small></div>
+      <div class="metric"><label>Rata-rata rugi / trade</label><strong id="average-loss">--</strong><small>Trade forward yang rugi</small></div>
+      <div class="metric"><label>Kecocokan sinyal</label><strong id="signal-match">--</strong><small id="signal-count">-- sinyal dibandingkan</small></div>
+    </section>
+    <div class="layout">
+      <section class="panel"><div class="panel-head"><h3>Kurva equity</h3><span>Nilai IDR · backtest & forward</span></div><div class="chart-wrap"><canvas id="equity-chart" aria-label="Grafik equity"></canvas></div></section>
+      <section class="panel"><div class="panel-head"><h3>Operasional</h3><span id="updated">Belum diperbarui</span></div><div class="side-metrics"><div><label>Panggilan selesai</label><strong id="calls">--</strong></div><div><label>Kesalahan API</label><strong id="api-errors">--</strong></div><div><label>Penggunaan kill switch</label><strong id="kill-uses">--</strong></div><div><label>Trade forward</label><strong id="trade-count">--</strong></div></div><div class="subnote" id="benchmark">Benchmark BTC/IDR: --</div></section>
+    </div>
+    <section class="panel table-panel"><div class="panel-head"><h3>Order simulasi terakhir</h3><span>Fill berdasarkan best bid/ask</span></div><div class="table-wrap"><table><thead><tr><th>Waktu</th><th>Pasangan</th><th>Sisi</th><th>Qty</th><th>Bid / Ask</th><th>Fill rata-rata</th><th>Fee</th><th>Deviasi dari sinyal</th></tr></thead><tbody id="orders"><tr><td colspan="8" class="empty">Belum ada log order.</td></tr></tbody></table></div><div class="foot" id="data-source">Angka dihitung dari log mentah; belum ada data untuk ditampilkan.</div></section>
+  </main>
+  <script>window.AUDIT_DATA = {"state":null,"calls":[],"orders":[],"trades":[],"snapshots":[],"errors":[],"switches":[],"backtest":null,"metrics":{}};</script>
+  <script>
+    const fmtPct = value => Number.isFinite(value) ? `${(value * 100).toFixed(2)}%` : '--';
+    const fmtIdr = value => Number.isFinite(value) ? `Rp ${new Intl.NumberFormat('id-ID',{maximumFractionDigits:0}).format(value)}` : '--';
+    const fmtNum = value => Number.isFinite(value) ? new Intl.NumberFormat('id-ID',{maximumFractionDigits:4}).format(value) : '--';
+    const set = (id,value, tone='') => { const el=document.getElementById(id); el.textContent=value; el.className=tone; };
+    function metricEquity(rows) {
+      if(!rows?.length)return [];
+      return rows.map(point=>Array.isArray(point)?point:[point.time,point.equity]);
+    }
+    function drawChart(backtestRows,forwardRows) {
+      const canvas=document.getElementById('equity-chart'), rect=canvas.getBoundingClientRect(), ratio=window.devicePixelRatio||1;
+      canvas.width=Math.max(1,Math.floor(rect.width*ratio)); canvas.height=Math.max(1,Math.floor(rect.height*ratio));
+      const ctx=canvas.getContext('2d'); ctx.scale(ratio,ratio);
+      const w=rect.width,h=rect.height,p={l:58,r:12,t:12,b:24};
+      const baseBt=backtestRows[0]?.[1]||1,baseFw=forwardRows[0]?.[1]||1;
+      backtestRows=backtestRows.map(row=>[row[0],row[1]/baseBt*100]);forwardRows=forwardRows.map(row=>[row[0],row[1]/baseFw*100]);
+      const values=[...backtestRows,...forwardRows].map(row=>Number(row[1])).filter(Number.isFinite);
+      if(!values.length){ctx.fillStyle='#69746f';ctx.font='12px Segoe UI';ctx.fillText('Kurva equity belum tersedia',p.l,28);return;}
+      let min=Math.min(...values),max=Math.max(...values); if(min===max){min*=.99;max*=1.01;}
+      const x0=p.l,x1=w-p.r,y0=p.t,y1=h-p.b;
+      ctx.font='10px Consolas';ctx.strokeStyle='#e3e9e5';ctx.fillStyle='#69746f';ctx.lineWidth=1;
+      for(let i=0;i<4;i++){const y=y0+(y1-y0)*i/3;ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x1,y);ctx.stroke();const value=max-(max-min)*i/3;ctx.fillText(new Intl.NumberFormat('id-ID',{notation:'compact',maximumFractionDigits:1}).format(value),2,y+3);}
+      const line=(rows,color)=>{if(rows.length<2)return;ctx.beginPath();rows.forEach((row,index)=>{const x=x0+(x1-x0)*index/(rows.length-1),y=y1-(y1-y0)*(row[1]-min)/(max-min);index?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();};
+      line(backtestRows,'#176c55');line(forwardRows,'#d18b34');
+    }
+    function render(data) {
+      const m=data.metrics||{}, bt=data.backtest||{}, btMetrics=bt.metrics||m.backtest||{}, fw=m.forward||{};
+      const online=Boolean(data.calls?.length);document.getElementById('status-dot').classList.toggle('live',online);set('status-label',online?'LOG TERHUBUNG':'MENUNGGU LOG');
+      set('period',bt.period?`${new Date(bt.period.start).toLocaleDateString('id-ID')} – ${new Date(bt.period.end).toLocaleDateString('id-ID')}`:'Jendela beku: belum tersedia');
+      set('bt-return',fmtPct(btMetrics.returnTotal),btMetrics.returnTotal>=0?'good':'bad');set('bt-cagr',`CAGR ${fmtPct(btMetrics.cagr)}`);set('bt-dd',fmtPct(btMetrics.maxDrawdown),'bad');set('bt-trades',`${btMetrics.count??bt.trades?.length??0} trade backtest`);
+      set('fw-return',fmtPct(fw.returnTotal),fw.returnTotal>=0?'good':'bad');set('fw-dd',fmtPct(fw.maxDrawdown),'bad');
+      set('profit-factor',fmtNum(fw.profitFactor));set('win-rate',`Win rate ${fmtPct(fw.winRate)}`);set('cost-share',fmtPct(fw.costShare));set('gap',fmtPct(m.backtestForwardGap),m.backtestForwardGap==null?'':m.backtestForwardGap>=0?'good':'bad');
+      set('uptime',fmtPct(m.uptime));set('ticks',`${m.processedTicks??0} / ${m.expectedTicks??0} candle terproses`);set('average-win',fmtIdr(fw.averageWin));set('average-loss',fmtIdr(fw.averageLoss));set('signal-match',fmtPct(m.signalMatchRate));set('signal-count',`${m.signalMatched??0} / ${m.signalCompared??0} sinyal cocok`);set('calls',String(data.calls?.length??0));set('api-errors',String(m.apiErrors??data.errors?.length??0));set('kill-uses',String(m.killSwitchUses??0));set('trade-count',String(data.trades?.length??0));
+      set('updated',data.calls?.length?new Date(data.calls.at(-1).finishedAt||data.calls.at(-1).time*1000).toLocaleString('id-ID'):'Belum diperbarui');
+      const bench=m.benchmark||data.benchmark;set('benchmark',bench?`BTC/IDR · backtest ${fmtPct(bench.full?.returnTotal??bench.returnTotal)} · forward ${fmtPct(bench.forward?.returnTotal)}`:'Benchmark BTC/IDR: belum dapat dihitung dari data candle.');
+      const orderRows=(data.orders||[]).slice(-12).reverse();document.getElementById('orders').innerHTML=orderRows.length?orderRows.map(row=>`<tr><td>${new Date((row.time>1e12?row.time:row.time*1000)).toLocaleString('id-ID')}</td><td><span class="badge">${String(row.symbol||'').replace('IDR','/IDR')}</span></td><td>${row.side||'--'}</td><td>${fmtNum(row.quantity)}</td><td>${fmtIdr(row.bestBid)} / ${fmtIdr(row.bestAsk)}</td><td>${fmtIdr(row.fillPrice)}</td><td>${fmtIdr(row.fee)}</td><td>${fmtPct(row.signalToFillPct)}</td></tr>`).join(''):'<tr><td colspan="8" class="empty">Belum ada log order forward.</td></tr>';
+      const msg=!bt.metrics?'Hasil backtest belum tersedia atau belum dapat diverifikasi.':!m.expectedTicks?'Forward test belum selesai.':null;
+      document.getElementById('notice').classList.toggle('hidden',!msg);if(msg)document.getElementById('notice').textContent=msg;
+      const backtestRows=metricEquity(bt.equity),forwardRows=metricEquity(m.forwardDailyEquity||data.state?.equityDaily);drawChart(backtestRows,forwardRows);
+      set('data-source',`Data: ${data.calls?.length??0} panggilan, ${data.snapshots?.length??0} snapshot order book, ${data.errors?.length??0} error. Ekspor ulang dari log mentah untuk audit.`);
+    }
+    async function load(){document.getElementById('refresh').disabled=true;try{const data=window.AUDIT_DATA||await fetch('/api/dashboard',{cache:'no-store'}).then(response=>{if(!response.ok)throw new Error(`API dashboard ${response.status}`);return response.json();});if(!data.metrics&&window.AUDIT_DATA){document.getElementById('notice').textContent='Jalankan scripts/recalculate.cjs sebelum membangun dashboard offline.';document.getElementById('notice').classList.remove('hidden');}render(data);}catch(error){set('status-label','DATA BELUM TERSEDIA');document.getElementById('notice').textContent=error.message;document.getElementById('notice').classList.remove('hidden');}finally{document.getElementById('refresh').disabled=Boolean(window.AUDIT_DATA);}}
+    document.getElementById('refresh').addEventListener('click',load);window.addEventListener('resize',()=>{if(window.AUDIT_DATA)render(window.AUDIT_DATA);});load();
+  </script>
+</body>
+</html>

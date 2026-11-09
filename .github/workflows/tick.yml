@@ -1,0 +1,17 @@
+name: Indodax dry-run tick
+
+on:
+  schedule:
+    - cron: '7 */4 * * *'
+  workflow_dispatch:
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel bot
+        env:
+          TICK_URL: ${{ secrets.TICK_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: >-
+          curl --fail-with-body --silent --show-error --max-time 300 -X POST "$TICK_URL" -H "Authorization: Bearer $CRON_SECRET"

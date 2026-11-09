@@ -1,0 +1,20 @@
+[
+  {
+    "symbol": "*",
+    "effectiveFrom": "2023-11-04",
+    "apiTakerPercent": null,
+    "officialTakerPercent": null,
+    "pairsUrl": "https://indodax.com/api/pairs",
+    "officialFeeUrl": "https://help.indodax.com/en/rincian-biaya-transaksi/",
+    "accessedAt": null
+  },
+  {
+    "symbol": "*",
+    "effectiveFrom": "2026-10-01",
+    "apiTakerPercent": null,
+    "officialTakerPercent": null,
+    "pairsUrl": "https://indodax.com/api/pairs",
+    "officialFeeUrl": "https://help.indodax.com/en/rincian-biaya-transaksi/",
+    "accessedAt": null
+  }
+]
